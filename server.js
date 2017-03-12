@@ -5,7 +5,6 @@ var mongoose = require('mongoose')
 var shortid = require('shortid');
 var url = process.env.MONGOLAB_URI;
 mongoose.connect(url)
-// export MONGOLAB_URI = 'mongodb://mk:seu123@ds123930.mlab.com:23930/api'
 var linksSchema = new mongoose.Schema({
   link: {
          type:String,
