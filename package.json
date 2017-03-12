@@ -1,0 +1,19 @@
+{
+  "name": "request-stalker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "mukhtar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "negotiator": "^0.6.1",
+    "request": "^2.81.0",
+    "useragent": "^2.1.12",
+    "yamlparser": "0.0.2"
+  }
+}
