@@ -4,6 +4,9 @@ var Negotiator = require('negotiator')
 var mongoose = require('mongoose')
 var shortid = require('shortid');
 var url = process.env.MONGOLAB_URI;
+var request = require('request');
+var SUBKEY = process.env.SUBKEY
+
 mongoose.connect(url)
 var linksSchema = new mongoose.Schema({
   link: {
@@ -16,6 +19,14 @@ var linksSchema = new mongoose.Schema({
    }
 })
 var Link = mongoose.model('Link',linksSchema)
+
+var termSchema = new mongoose.Schema({
+    term:String,
+    when: { type: Date, default: Date.now }
+})
+
+var Term = mongoose.model('Term',termSchema)
+
 useragent(true);
 var app = express()
 
@@ -25,7 +36,67 @@ app.use(express.static('public'))
 
 app.get('/',function(req,res){
 
+//
     res.sendFile('./index.html')
+
+})
+
+
+app.get('/api/imagesearch/:term',function(req,res){
+  var term = encodeURI(req.params.term)
+    var q = req.query.offset
+  var url='https://api.cognitive.microsoft.com/bing/v5.0/images/search?q='+term+'&count=10'
+  if(q !=null){
+    url+='&offset='+q
+  }
+  var options = {
+    url:url,
+    headers: {
+      'Ocp-Apim-Subscription-Key': SUBKEY
+    }
+  };
+
+  function callback(error, response, body) {
+
+  if (!error && response.statusCode == 200) {
+    var info = JSON.parse(body);
+    var arr = []
+    info.value.forEach(function(info){
+
+        var obj = {url:info.contentUrl,snippet:info.name,thumbnail:info.thumbnailUrl,context:info.hostPageUrl}
+          arr.push(obj)
+    })
+
+    Term.create({term:req.params.term},function(err,data){
+
+        res.send(arr)
+    })
+
+
+
+
+  }
+}
+
+  request(options,callback)
+
+})
+
+
+app.get('/api/latest/imagesearch/',function(req,res){
+
+    Term.find().sort({_id:-1}).limit(10).exec(function(err,data){
+
+      var latest=data.map(function(data){
+
+            return {term:data.term,when:data.when}
+
+        })
+
+        res.send(latest)
+
+    })
+
 
 })
 
@@ -40,7 +111,7 @@ app.get('/new/:link(*)',function(req,res){
     res.json({error:'URL invalid'})
 
   }else{
-    console.log(url)
+
 
     Link.create({link:url},function(err,data){
 
@@ -50,14 +121,7 @@ app.get('/new/:link(*)',function(req,res){
 
 
     })
-
-
-
-
-
   }
-
-
 
 })
 
