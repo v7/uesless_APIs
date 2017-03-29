@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,58 +73,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-preview">
-                    <a href="api/whoami">
-                        <h2 class="post-title">
-                            Request-Header-Parser-Microservice
-                        </h2>
-                        <h3 class="post-subtitle">
-                            get the IP address, language and operating system of your browser.
-                        </h3>
-                    </a>
-
-                </div>
-                <hr>
-                <div class="post-preview">
-                    <a href="#">
-                        <h2 class="post-title">
-                            URL Shortener Microservice
-                        </h2>
-                        <h3 class="post-subtitle">
-                            <ul>
-                              <li> pass a URL as a parameter and you will receive a shortened URL in the JSON response.</li>
-                              <li>When you visit that shortened URL, it will redirect you to your original link.</li>
-                            </ul>
-                        </h3>
-                    </a>
-                    <h3>Example creation usage:</h3> <a href="https://useless-api.herokuapp.com/new/https://www.google.com"><code>https://useless-api.herokuapp.com/new/https://www.google.com</code></a> <br/><h3>Example creation output</h3><code>{
-  "original_url":"https://www.google.com/",
-  "short_url":"https://useless-api.herokuapp.com/BkCnUx7ox"
-}</code><h3>Usage:</h3> <a href="https://useless-api.herokuapp.com/BkCnUx7ox"><code>https://useless-api.herokuapp.com/BkCnUx7ox</code></a><h3>Will redirect to:</h3> <a href="https://www.google.com/"><code>https://www.google.com/</code></a>
-                </div>
-                <hr>
-
-                <div class="post-preview">
-                    <a href="api/whoami">
-                        <h2 class="post-title">
-                            Image Search Abstraction Layer
-                        </h2>
-                        <h3 class="post-subtitle">
-                              <h3>Search for images like this:</h3> <a href="https://useless-api.herokuapp.com/api/imagesearch/funny%20meme?offset=10"><code>https://useless-api.herokuapp.com/api/imagesearch/funny%20meme?offset=10</code></a><br/>
-                        </h3>
-
-                        <h3 class="post-subtitle">
-                              <h3> browse recent search queries like this:</h3> <a href="https://useless-api.herokuapp.com/api/latest/imagesearch/"><code>https://useless-api.herokuapp.com/api/latest/imagesearch/</code></a><br/>
-                        </h3>
-
-                    </a>
-
-                </div>
-
-                <hr />
-
-
-                <div class="post-preview">
-                    <a href="/files">
+                    <
                         <h2 class="post-title">
                             File Metadata Microservice
                         </h2>
@@ -131,11 +81,27 @@
                           upload file under 1MB and get the bytes size
 
                         </h3>
-                    </a>
+                        <br />
+                        <form class="" action="/" method="post" enctype="multipart/form-data">
+                          <input type="file" name="theFile">
+                          <button type="submit" name="submit">submit</button>
+                        </form>
+
+                        <script>
+                        if(<%=size%>){
+
+                            setTimeout(function(){
+
+                              alert("file size "+<%=size%>+ " bytes")
+
+                            },3000)
+                        }
+
+                        </script>
+
+
 
                 </div>
-
-
                 <hr>
 
             </div>

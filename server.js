@@ -1,12 +1,19 @@
 var express = require('express')
+var app = express()
 var useragent = require('useragent');
+var bodyParser = require('body-parser')
 var Negotiator = require('negotiator')
 var mongoose = require('mongoose')
 var shortid = require('shortid');
 var url = process.env.MONGOLAB_URI;
+console.log(url)
 var request = require('request');
 var SUBKEY = process.env.SUBKEY
+var multer  = require('multer')
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage,limits: { fileSize: 1000000 }});
 
+app.use(bodyParser.urlencoded({ extended: true }))
 mongoose.connect(url)
 var linksSchema = new mongoose.Schema({
   link: {
@@ -28,8 +35,8 @@ var termSchema = new mongoose.Schema({
 var Term = mongoose.model('Term',termSchema)
 
 useragent(true);
-var app = express()
 
+app.set('view engine','ejs')
 app.use(express.static('public'))
 
 
@@ -38,6 +45,29 @@ app.get('/',function(req,res){
 
 //
     res.sendFile('./index.html')
+
+})
+
+
+app.get('/files',function(req,res){
+    var size = req.query.size
+
+    if(size){
+
+      res.render('files',{size:size})
+
+    }else{
+
+      res.render('files',{size:null})
+    }
+
+
+})
+
+app.post('/',upload.single('theFile'),function(req,res){
+
+
+    res.redirect('/files?size='+req.file.size)
 
 })
 
